@@ -10,6 +10,7 @@ import { DaySelectOption } from '../../../../domains/shared/models/day';
 import { InputFetcherService } from '../../../../domains/shared/services/input-fetcher.service';
 import { Subscription } from 'rxjs';
 import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
+import { dayId } from '../../../shared/models/dayId';
 
 @Component({
   selector: 'app-day-selector',
@@ -46,7 +47,7 @@ export class DaySelectorComponent {
   }
 
   handleDaySelect() {
-    const selectedOption = this.selectorElement().nativeElement.value;
+    const selectedOption = this.selectorElement().nativeElement.value as dayId;
     const inputFilename = selectedOption + '.txt';
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
     this.currentFileRequest = this.inputFetcher

@@ -1,4 +1,6 @@
+import { dayId } from './dayId';
+
 export interface ProblemInput {
-  problemId: string;
+  problemId: dayId;
   input: string;
 }

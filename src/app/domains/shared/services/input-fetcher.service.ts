@@ -15,10 +15,8 @@ export class InputFetcherService {
   fetchInputFile(filename: string): Observable<string> {
     const fileData = this.inputData.get(filename);
     if (fileData) {
-      console.log('cached data');
       return of(fileData);
     } else {
-      console.log('fetched data');
       const filepath = './input-files/' + filename;
       return this.httpClient.get(filepath, { responseType: 'text' }).pipe(
         tap((data) => {

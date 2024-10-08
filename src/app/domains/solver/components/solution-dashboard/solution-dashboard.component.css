@@ -14,10 +14,10 @@
 }
 
 pre {
-  margin-inline-end: 2em;
   overflow-x: auto;
-  max-width: 50vw;
+  max-width: 51vw;
   max-height: 90vh;
+  padding-right: 2em;
 }
 
 code {
@@ -38,4 +38,10 @@ code:before {
   bottom: 0px;
   border: 1px solid #333340;
   background: #10101a;
+}
+
+.divider {
+  width: 1px;
+  background: #505050;
+  margin-inline: 0.5rem;
 }

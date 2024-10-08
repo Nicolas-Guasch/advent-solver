@@ -1,8 +1,9 @@
 <div class="control-panel">
-  <button>Solve Part One</button><button>Solve Part Two</button>
+  <button (click)="computePartOne()">Solve Part One</button
+  ><button (click)="computePartTwo()">Solve Part Two</button>
 </div>
 <div class="IO-panel">
-  <pre><code style="width: 50vw;">{{'Your input:\n'+input().input}}</code></pre>
-
-  <pre><code>Your output:</code></pre>
+  <pre><code >Your input:{{'\n'+providedInput().input}}</code></pre>
+  <div class="divider" role="separator" aria-label="Divider"></div>
+  <pre><code>Your output:{{'\n'+problemOutput()}}</code></pre>
 </div>

@@ -1,5 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import { ProblemInput } from '../../../shared/models/ProblemInput';
+import { AOCSolutionsProviderService } from '../../services/aoc-solutions-provider.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-solution-dashboard',
@@ -9,5 +11,28 @@ import { ProblemInput } from '../../../shared/models/ProblemInput';
   styleUrl: './solution-dashboard.component.css',
 })
 export class SolutionDashboardComponent {
-  input = input.required<ProblemInput>();
+  providedInput = input.required<ProblemInput>();
+  aocSolver = inject(AOCSolutionsProviderService);
+  problemOutput = signal<string>('');
+  currentExecution: Subscription | null = null;
+
+  discardSolution() {
+    if (this.currentExecution) {
+      this.currentExecution.unsubscribe;
+      this.currentExecution = null;
+    }
+  }
+
+  computePartOne() {
+    this.discardSolution();
+    this.aocSolver.partOne(this.providedInput()).subscribe((result) => {
+      this.problemOutput.set(result);
+    });
+  }
+  computePartTwo() {
+    this.discardSolution();
+    this.aocSolver.partTwo(this.providedInput()).subscribe((result) => {
+      this.problemOutput.set(result);
+    });
+  }
 }

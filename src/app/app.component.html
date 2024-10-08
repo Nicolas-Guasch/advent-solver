@@ -5,6 +5,8 @@
   ></app-day-selector>
 
   @if (problemInput()) {
-    <app-solution-dashboard [input]="problemInput()!"></app-solution-dashboard>
+    <app-solution-dashboard
+      [providedInput]="problemInput()!"
+    ></app-solution-dashboard>
   }
 </main>

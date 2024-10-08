@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,18 +12,19 @@ export class InputFetcherService {
 
   constructor() {}
 
-  async fetchInputFile(filename: string): Promise<string> {
-    if (this.inputData.has(filename)) {
+  fetchInputFile(filename: string): Observable<string> {
+    const fileData = this.inputData.get(filename);
+    if (fileData) {
       console.log('cached data');
-      return this.inputData.get(filename)!;
+      return of(fileData);
     } else {
       console.log('fetched data');
       const filepath = './input-files/' + filename;
-      const fileData = await firstValueFrom(
-        this.httpClient.get(filepath, { responseType: 'text' }),
+      return this.httpClient.get(filepath, { responseType: 'text' }).pipe(
+        tap((data) => {
+          this.inputData.set(filename, data);
+        }),
       );
-      this.inputData.set(filename, fileData);
-      return fileData;
     }
   }
 }

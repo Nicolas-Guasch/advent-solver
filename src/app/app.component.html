@@ -1,10 +1,8 @@
 <main class="container">
   <h1>Solutions to Advent of Code 2023</h1>
-  <select (change)="handleDaySelect($event)">
-    @for (day of adventDays(); track day.number) {
-      <option [value]="day.selectValue">{{ day.label }}</option>
-    }
-  </select>
+  <app-day-selector
+    (selectorOutput)="daySelectedHandler($event)"
+  ></app-day-selector>
 
   @if (codeAreaContent() != "") {
     <pre>

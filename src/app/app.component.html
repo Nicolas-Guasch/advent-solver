@@ -4,9 +4,7 @@
     (selectorOutput)="daySelectedHandler($event)"
   ></app-day-selector>
 
-  @if (codeAreaContent() != "") {
-    <pre>
-      <code>{{codeAreaContent()}}</code>
-    </pre>
+  @if (problemInput()) {
+    <app-solution-dashboard [input]="problemInput()!"></app-solution-dashboard>
   }
 </main>

@@ -1,4 +1,4 @@
-<select #dayselect (change)="handleDaySelect($event)">
+<select #dayselect (change)="handleDaySelect()">
   @for (day of adventDays(); track day.number) {
     <option [value]="day.selectValue">{{ day.label }}</option>
   }

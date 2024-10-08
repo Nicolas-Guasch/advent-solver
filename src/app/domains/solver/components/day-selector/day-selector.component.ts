@@ -1,17 +1,15 @@
 import {
   Component,
-  computed,
-  effect,
   ElementRef,
   inject,
   output,
   signal,
   viewChild,
-  ViewChild,
 } from '@angular/core';
-import { daySelectOption } from '../../../../domains/shared/models/day';
+import { DaySelectOption } from '../../../../domains/shared/models/day';
 import { InputFetcherService } from '../../../../domains/shared/services/input-fetcher.service';
 import { Subscription } from 'rxjs';
+import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
 
 @Component({
   selector: 'app-day-selector',
@@ -22,12 +20,12 @@ import { Subscription } from 'rxjs';
 })
 export class DaySelectorComponent {
   inputFetcher = inject(InputFetcherService);
-  selectorOutput = output<string>();
+  selectorOutput = output<ProblemInput>();
   currentFileRequest: Subscription | null = null;
 
   selectorElement = viewChild.required<ElementRef>('dayselect');
 
-  adventDays = signal<daySelectOption[]>([]);
+  adventDays = signal<DaySelectOption[]>([]);
 
   constructor() {
     let days = [];
@@ -35,27 +33,26 @@ export class DaySelectorComponent {
       days.push({ number: i, selectValue: 'day' + i, label: 'Day ' + i });
     }
     this.adventDays.set(days);
-    effect(() => {
-      console.log('select found');
-      const event = new CustomEvent('change');
-      this.selectorElement().nativeElement.dispatchEvent(event);
-    });
   }
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.handleDaySelect();
+  }
 
   ngOnDestroy() {
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
   }
 
-  handleDaySelect(event: Event) {
-    const dropdown = event.target as HTMLSelectElement;
-    const selectedOption: string = dropdown.value;
-    console.log(`input: ${selectedOption}`);
+  handleDaySelect() {
+    const selectedOption = this.selectorElement().nativeElement.value;
     const inputFilename = selectedOption + '.txt';
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
     this.currentFileRequest = this.inputFetcher
       .fetchInputFile(inputFilename)
-      .subscribe((data) => this.selectorOutput.emit(data));
+      .subscribe((data) =>
+        this.selectorOutput.emit({ problemId: selectedOption, input: data }),
+      );
   }
 }

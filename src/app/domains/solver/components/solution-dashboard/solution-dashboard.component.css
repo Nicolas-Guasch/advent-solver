@@ -1,0 +1,41 @@
+.control-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin-top: 1em;
+  width: calc(1em + 50vw);
+}
+
+.IO-panel {
+  display: flex;
+  margin-inline-start: 1em;
+  margin-inline-end: 1em;
+  align-content: space-between;
+}
+
+pre {
+  margin-inline-end: 2em;
+  overflow-x: auto;
+  max-width: 50vw;
+  max-height: 90vh;
+}
+
+code {
+  position: relative;
+  display: inline-block;
+  margin: 2px;
+  padding: 0;
+}
+
+code:before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  display: block;
+  left: -2px;
+  right: -2px;
+  top: 3px;
+  bottom: 0px;
+  border: 1px solid #333340;
+  background: #10101a;
+}

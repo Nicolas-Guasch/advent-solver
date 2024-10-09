@@ -6,6 +6,11 @@
   width: calc(1em + 50vw);
 }
 
+.control-panel > button {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
 .IO-panel {
   display: flex;
   margin-inline-start: 1em;

@@ -2,3 +2,8 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+app-day-selector {
+  display: flex;
+  align-items: start;
+}

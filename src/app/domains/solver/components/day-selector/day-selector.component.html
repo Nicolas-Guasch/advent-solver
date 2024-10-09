@@ -1,9 +1,14 @@
 <select #dayselect (change)="handleDaySelect()">
   @for (day of adventDays(); track day.number) {
-    <option [value]="day.selectValue">{{ day.label }}</option>
+    <option
+      [value]="day.selectValue"
+      [selected]="selectedDay() === day.selectValue"
+    >
+      {{ day.label }}
+    </option>
   }
 </select>
 <button (click)="customHandler()">Load custom input</button>
 @if (customInput()) {
-  <textarea (change)="submitCustom($event)"></textarea>
+  <textarea (change)="submitCustom($event)">{{ textAreaContent() }}</textarea>
 }

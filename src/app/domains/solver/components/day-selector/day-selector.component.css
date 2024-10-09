@@ -3,7 +3,13 @@ select {
   margin-inline-end: 1em;
 }
 
+button {
+  margin-inline-start: 0em;
+  margin-inline-end: 1em;
+}
+
 textarea {
+  align-self: start;
   background-color: #10101a;
   border-color: #333340;
   color: #cccccc;

@@ -1,5 +1,6 @@
 import {
   Component,
+  effect,
   ElementRef,
   inject,
   output,
@@ -11,6 +12,7 @@ import { InputFetcherService } from '../../../../domains/shared/services/input-f
 import { Subscription } from 'rxjs';
 import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
 import { dayId } from '../../../shared/models/dayId';
+import { StorageService } from '../../services/storage.service';
 
 @Component({
   selector: 'app-day-selector',
@@ -21,13 +23,16 @@ import { dayId } from '../../../shared/models/dayId';
 })
 export class DaySelectorComponent {
   inputFetcher = inject(InputFetcherService);
+  storeService = inject(StorageService);
   selectorOutput = output<ProblemInput>();
   currentFileRequest: Subscription | null = null;
 
-  selectorElement = viewChild.required<ElementRef>('dayselect');
-
   adventDays = signal<DaySelectOption[]>([]);
-  customInput = signal<boolean>(false);
+  selectorElement = viewChild.required<ElementRef>('dayselect');
+  selectedDay = signal<string>(this.storeService.getSelectedDay());
+  customInput = signal<boolean>(this.storeService.isCustomActive());
+  textAreaContent = signal<string>(this.storeService.getCustomInput());
+
   customContent = output<ProblemInput>();
 
   constructor() {
@@ -36,6 +41,14 @@ export class DaySelectorComponent {
       days.push({ number: i, selectValue: 'day' + i, label: 'Day ' + i });
     }
     this.adventDays.set(days);
+    effect(() => {
+      const day = this.selectedDay();
+      this.storeService.storeSelectedDay(day);
+    });
+    effect(() => {
+      const custom = this.textAreaContent();
+      this.storeService.storeCustomInput(custom);
+    });
   }
 
   ngOnInit() {}
@@ -51,6 +64,10 @@ export class DaySelectorComponent {
   handleDaySelect() {
     const selectedOption = this.selectorElement().nativeElement.value as dayId;
     const inputFilename = selectedOption + '.txt';
+    if (selectedOption !== this.selectedDay()) {
+      this.textAreaContent.set('');
+    }
+    this.selectedDay.set(selectedOption);
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
     this.currentFileRequest = this.inputFetcher
       .fetchInputFile(inputFilename)
@@ -61,6 +78,9 @@ export class DaySelectorComponent {
   customHandler() {
     const selectedOption = this.selectorElement().nativeElement.value as dayId;
     this.customInput.update((val) => !val);
+    if (!this.customInput()) {
+      this.textAreaContent.set('');
+    }
     this.customContent.emit({ problemId: selectedOption, input: '' });
   }
 
@@ -68,6 +88,7 @@ export class DaySelectorComponent {
     const selectedOption = this.selectorElement().nativeElement.value as dayId;
     const textArea = event.target as HTMLTextAreaElement;
     const customInput = textArea.value;
+    this.storeService.storeCustomInput(customInput);
     this.customContent.emit({ problemId: selectedOption, input: customInput });
   }
 }

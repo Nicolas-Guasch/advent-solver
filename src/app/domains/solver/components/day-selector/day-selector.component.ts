@@ -71,9 +71,18 @@ export class DaySelectorComponent {
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
     this.currentFileRequest = this.inputFetcher
       .fetchInputFile(inputFilename)
-      .subscribe((data) =>
-        this.selectorOutput.emit({ problemId: selectedOption, input: data }),
-      );
+      .subscribe({
+        next: (data) =>
+          this.selectorOutput.emit({ problemId: selectedOption, input: data }),
+        error: () => {
+          this.selectorOutput.emit({
+            problemId: selectedOption,
+            input:
+              selectedOption +
+              '.txt not found. Copy your own input files to\npublic/input-files/ before building the site\nin order to use them here.',
+          });
+        },
+      });
   }
   customHandler() {
     const selectedOption = this.selectorElement().nativeElement.value as dayId;

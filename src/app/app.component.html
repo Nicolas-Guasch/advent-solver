@@ -2,11 +2,14 @@
   <h1>Solutions to Advent of Code 2023</h1>
   <app-day-selector
     (selectorOutput)="daySelectedHandler($event)"
+    (customContent)="customInputHandler($event)"
   ></app-day-selector>
 
   @if (problemInput()) {
     <app-solution-dashboard
-      [providedInput]="problemInput()!"
+      [providedInput]="
+        customInput().input == '' ? problemInput()! : customInput()
+      "
     ></app-solution-dashboard>
   }
 </main>

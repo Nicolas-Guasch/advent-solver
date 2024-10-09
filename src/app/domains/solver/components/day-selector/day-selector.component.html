@@ -3,4 +3,7 @@
     <option [value]="day.selectValue">{{ day.label }}</option>
   }
 </select>
-<button>Load your input</button>
+<button (click)="customHandler()">Load custom input</button>
+@if (customInput()) {
+  <textarea (change)="submitCustom($event)"></textarea>
+}

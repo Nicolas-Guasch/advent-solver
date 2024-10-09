@@ -3,7 +3,9 @@
   ><button (click)="computePartTwo()">Solve Part Two</button>
 </div>
 <div class="IO-panel">
-  <pre><code >Your input:{{'\n'+providedInput().input}}</code></pre>
+  <div class="input-side">
+    <pre><code >Your input:{{'\n'+providedInput().input}}</code></pre>
+  </div>
   <div class="divider" role="separator" aria-label="Divider"></div>
   <pre><code>Your output:{{'\n'+problemOutput()}}</code></pre>
 </div>

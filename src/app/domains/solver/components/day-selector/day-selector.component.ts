@@ -27,6 +27,8 @@ export class DaySelectorComponent {
   selectorElement = viewChild.required<ElementRef>('dayselect');
 
   adventDays = signal<DaySelectOption[]>([]);
+  customInput = signal<boolean>(false);
+  customContent = output<ProblemInput>();
 
   constructor() {
     let days = [];
@@ -55,5 +57,17 @@ export class DaySelectorComponent {
       .subscribe((data) =>
         this.selectorOutput.emit({ problemId: selectedOption, input: data }),
       );
+  }
+  customHandler() {
+    const selectedOption = this.selectorElement().nativeElement.value as dayId;
+    this.customInput.update((val) => !val);
+    this.customContent.emit({ problemId: selectedOption, input: '' });
+  }
+
+  submitCustom(event: Event) {
+    const selectedOption = this.selectorElement().nativeElement.value as dayId;
+    const textArea = event.target as HTMLTextAreaElement;
+    const customInput = textArea.value;
+    this.customContent.emit({ problemId: selectedOption, input: customInput });
   }
 }

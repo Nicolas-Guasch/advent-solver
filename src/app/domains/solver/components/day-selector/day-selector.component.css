@@ -2,3 +2,9 @@ select {
   margin-inline-start: 1.2em;
   margin-inline-end: 1em;
 }
+
+textarea {
+  background-color: #10101a;
+  border-color: #333340;
+  color: #cccccc;
+}

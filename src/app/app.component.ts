@@ -14,8 +14,13 @@ import { ProblemInput } from './domains/shared/models/ProblemInput';
 })
 export class AppComponent {
   problemInput = signal<ProblemInput | null>(null);
+  customInput = signal<ProblemInput>({ problemId: 'day1', input: '' });
 
   daySelectedHandler(input: ProblemInput) {
     this.problemInput.set(input);
+  }
+
+  customInputHandler(customInput: ProblemInput) {
+    this.customInput.set(customInput);
   }
 }

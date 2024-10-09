@@ -5,6 +5,7 @@ import { Solution } from '../solutions/solution';
 import { dayId } from '../../shared/models/dayId';
 import { PendingSolver } from '../solutions/pending-solver';
 import { Observable, of } from 'rxjs';
+import { Day2 } from '../solutions/2023/day2';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,8 @@ export class AOCSolutionsProviderService {
     switch (dayName) {
       case 'day1':
         return new Day1();
+      case 'day2':
+        return new Day2();
       default:
         return new PendingSolver();
     }

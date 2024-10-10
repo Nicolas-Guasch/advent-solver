@@ -20,6 +20,8 @@
 
 .input-side {
   width: 50vw;
+  display: flex;
+  justify-content: end;
 }
 
 pre {
@@ -32,6 +34,7 @@ code {
   position: relative;
   display: inline-block;
   margin: 2px;
+  margin-right: 1em;
   padding: 0;
 }
 

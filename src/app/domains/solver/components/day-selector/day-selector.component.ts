@@ -55,6 +55,12 @@ export class DaySelectorComponent {
 
   ngAfterViewInit() {
     this.handleDaySelect();
+    if (this.customInput()) {
+      this.customContent.emit({
+        problemId: this.selectedDay() as dayId,
+        input: this.textAreaContent(),
+      });
+    }
   }
 
   ngOnDestroy() {

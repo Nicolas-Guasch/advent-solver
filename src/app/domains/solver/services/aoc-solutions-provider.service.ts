@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { ProblemInput } from '../../shared/models/ProblemInput';
-import { Day1 } from '../solutions/2023/day1';
 import { Solution } from '../solutions/solution';
 import { dayId } from '../../shared/models/dayId';
 import { PendingSolver } from '../solutions/pending-solver';
 import { Observable, of } from 'rxjs';
+import { Day1 } from '../solutions/2023/day1';
 import { Day2 } from '../solutions/2023/day2';
+import { Day3 } from '../solutions/2023/day3';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,8 @@ export class AOCSolutionsProviderService {
         return new Day1();
       case 'day2':
         return new Day2();
+      case 'day3':
+        return new Day3();
       default:
         return new PendingSolver();
     }

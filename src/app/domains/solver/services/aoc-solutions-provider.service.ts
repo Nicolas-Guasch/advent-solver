@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { Day1 } from '../solutions/2023/day1';
 import { Day2 } from '../solutions/2023/day2';
 import { Day3 } from '../solutions/2023/day3';
+import { Day4 } from '../solutions/2023/day4';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,8 @@ export class AOCSolutionsProviderService {
         return new Day2();
       case 'day3':
         return new Day3();
+      case 'day4':
+        return new Day4();
       default:
         return new PendingSolver();
     }

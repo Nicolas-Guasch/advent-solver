@@ -5,6 +5,12 @@ body {
   color: #cccccc;
   font-family: Consolas;
 }
+
+a {
+  color: #cccccc;
+  font-family: Consolas;
+}
+
 h1 {
   font-family: Consolas, monaco, monospace;
   font-size: 31px;

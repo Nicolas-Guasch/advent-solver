@@ -12,3 +12,8 @@
 @if (customInput()) {
   <textarea (change)="submitCustom($event)">{{ textAreaContent() }}</textarea>
 }
+<div>
+  <a [href]="selectedDayStatementUrl()" target="_blank"
+    >Problem Statement for {{ selectedDayData()?.label }}</a
+  >
+</div>

@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   ElementRef,
   inject,
@@ -34,6 +35,16 @@ export class DaySelectorComponent {
   textAreaContent = signal<string>(this.storeService.getCustomInput());
 
   customContent = output<ProblemInput>();
+
+  selectedDayData = computed(() => {
+    const day = this.adventDays().find(
+      (day) => day.selectValue === this.selectedDay(),
+    );
+    return day;
+  });
+  selectedDayStatementUrl = computed(
+    () => `https://adventofcode.com/2023/day/${this.selectedDayData()?.number}`,
+  );
 
   constructor() {
     let days = [];
@@ -74,6 +85,7 @@ export class DaySelectorComponent {
       this.textAreaContent.set('');
     }
     this.selectedDay.set(selectedOption);
+    console.log(this.selectedDayStatementUrl());
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
     this.currentFileRequest = this.inputFetcher
       .fetchInputFile(inputFilename)

@@ -38,6 +38,10 @@ code {
   padding: 0;
 }
 
+.selectable {
+  user-select: all;
+}
+
 code:before {
   z-index: -1;
   content: "";

@@ -4,10 +4,8 @@ import { Solution } from '../solutions/solution';
 import { dayId } from '../../shared/models/dayId';
 import { PendingSolver } from '../solutions/pending-solver';
 import { Observable, of } from 'rxjs';
-import { Day1 } from '../solutions/2023/day1';
-import { Day2 } from '../solutions/2023/day2';
-import { Day3 } from '../solutions/2023/day3';
-import { Day4 } from '../solutions/2023/day4';
+
+import * as d from '../solutions/2023/aoc2023';
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +16,13 @@ export class AOCSolutionsProviderService {
   getDaySolution(dayName: dayId): Solution {
     switch (dayName) {
       case 'day1':
-        return new Day1();
+        return new d.Day1();
       case 'day2':
-        return new Day2();
+        return new d.Day2();
       case 'day3':
-        return new Day3();
+        return new d.Day3();
       case 'day4':
-        return new Day4();
+        return new d.Day4();
       default:
         return new PendingSolver();
     }

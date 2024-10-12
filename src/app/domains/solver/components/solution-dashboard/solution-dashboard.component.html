@@ -4,8 +4,14 @@
 </div>
 <div class="IO-panel">
   <div class="input-side">
-    <pre><code ><span>Your input:</span><span class="selectable">{{'\n'+providedInput().input}}</span></code></pre>
+    <pre><code ><span>Your input:</span><span >{{'\n'+providedInput().input}}</span></code></pre>
   </div>
   <div class="divider" role="separator" aria-label="Divider"></div>
-  <pre><code><span>Your output:</span><span class="selectable">{{'\n'+problemOutput()}}</span></code></pre>
+  <div>
+    <pre><code><span>Your output:</span><span class="selectable">{{'\n'+problemOutput()}}</span></code></pre>
+    <a (click)="handleCode()">Show code</a>
+    @if (displayCode()) {
+      <pre><code>{{solverCode()}}</code></pre>
+    }
+  </div>
 </div>

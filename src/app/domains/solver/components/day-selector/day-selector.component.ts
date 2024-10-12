@@ -85,7 +85,6 @@ export class DaySelectorComponent {
       this.textAreaContent.set('');
     }
     this.selectedDay.set(selectedOption);
-    console.log(this.selectedDayStatementUrl());
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
     this.currentFileRequest = this.inputFetcher
       .fetchInputFile(inputFilename)

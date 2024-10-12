@@ -17,7 +17,7 @@ export class InputFetcherService {
     if (fileData) {
       return of(fileData);
     } else {
-      const filepath = './input-files/' + filename;
+      const filepath = this.path + filename;
       return this.httpClient.get(filepath, { responseType: 'text' }).pipe(
         tap((data) => {
           this.inputData.set(filename, data);

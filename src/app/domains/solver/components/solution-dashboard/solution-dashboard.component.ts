@@ -1,7 +1,8 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { ProblemInput } from '../../../shared/models/ProblemInput';
 import { AOCSolutionsProviderService } from '../../services/aoc-solutions-provider.service';
 import { Subscription } from 'rxjs';
+import { CodeFetcherService } from '../../../shared/services/code-fetcher.service';
 
 @Component({
   selector: 'app-solution-dashboard',
@@ -21,6 +22,17 @@ export class SolutionDashboardComponent {
       this.currentExecution.unsubscribe;
       this.currentExecution = null;
     }
+  }
+
+  codeFetcher = inject(CodeFetcherService);
+  solverCode = computed(() => {
+    const id = this.providedInput().problemId;
+    return this.codeFetcher.fetchCode(id);
+  });
+  displayCode = signal(false);
+
+  handleCode() {
+    this.displayCode.update((value) => !value);
   }
 
   computePartOne() {

@@ -1,3 +1,4 @@
+import { map, range } from 'rxjs';
 import { Solution } from '../solution';
 
 type map = {
@@ -34,7 +35,6 @@ export class Day5 extends Solution {
   }
 
   private getLocation(seed: number, maps: map[][]): number {
-    //let log = `Seed: ${seed}\n`;
     for (let mapCategory of maps) {
       const mapRange = mapCategory.find(
         (map) => map.source <= seed && seed < map.source + map.length,
@@ -42,9 +42,7 @@ export class Day5 extends Solution {
       if (mapRange) {
         seed = mapRange.destination + (seed - mapRange.source);
       }
-      //log += `${seed}\n`;
     }
-    //console.log(log);
     return seed;
   }
   override partOne(input: string): string {
@@ -70,6 +68,48 @@ export class Day5 extends Solution {
 
     return nearestLocation.toString();
   }
+
+  private split(seeds: number[], map: map): number[][] {
+    let before: number[] = [],
+      inside: number[] = [],
+      after: number[] = [];
+    if (seeds[0] + seeds[1] <= map.source) before = seeds;
+    else {
+      if (seeds[0] < map.source) {
+        before = [seeds[0], map.source - seeds[0]];
+        inside = [map.source, seeds[1] + seeds[0] - map.source];
+      } else inside = seeds;
+      const outside = map.source + map.length;
+      if (inside[0] >= outside) {
+        after = inside;
+        inside = [];
+      } else if (inside[0] + inside[1] > outside) {
+        after = [outside, inside[0] + inside[1] - outside];
+        inside = [inside[0], outside - inside[0]];
+      }
+    }
+    return [before, inside, after];
+  }
+
+  private getLocationRanges(seeds: number[], mapCategory: map[]): number[][] {
+    let seedRanges: number[][] = [];
+    let rangePos = 0;
+    let unmapped = seeds;
+    while (unmapped.length && rangePos < mapCategory.length) {
+      const currentMap = mapCategory[rangePos++];
+      let [before, inside, after] = this.split(unmapped, currentMap);
+      if (before.length) seedRanges.push(before);
+      if (inside.length) {
+        inside[0] = currentMap.destination + inside[0] - currentMap.source;
+        seedRanges.push(inside);
+      }
+      unmapped = after;
+    }
+    if (unmapped.length) seedRanges.push(unmapped);
+
+    return seedRanges;
+  }
+
   override partTwo(input: string): string {
     let [seedData, ...mapsData] = input.split('\n');
     seedData = seedData.slice('seeds: '.length);
@@ -84,22 +124,26 @@ export class Day5 extends Solution {
 
     let nearestLocation = this.INF;
 
-    const zip = (a: any[], b: any[]) => a.map((e, i) => [e, b[i]]);
-    const seedRanges = zip(
+    const zip = (a: number[], b: number[]) => a.map((e, i) => [e, b[i]]);
+    let seedRanges = zip(
       seedSequence.filter((e, i) => !(i % 2)),
       seedSequence.filter((e, i) => i % 2),
     );
 
-    console.log(seedRanges);
-    for (let range of seedRanges) {
-      console.log(range[0]);
-      for (let seedNum = range[0]; seedNum < range[0] + range[1]; seedNum++) {
-        nearestLocation = Math.min(
-          nearestLocation,
-          this.getLocation(seedNum, mappings),
-        );
+    let mappedRanges: number[][] = [];
+    for (let map of mappings) {
+      map.sort((a, b) => a.source - b.source);
+      for (let range of seedRanges) {
+        mappedRanges = mappedRanges.concat(this.getLocationRanges(range, map));
       }
+      seedRanges = mappedRanges;
+      mappedRanges = [];
     }
+
+    nearestLocation = Math.min.apply(
+      Math,
+      seedRanges.map(([a, _b]) => a),
+    );
 
     return nearestLocation.toString();
   }

@@ -9,7 +9,7 @@ type map = {
 type interval = {
   start: number;
   length: number;
-} | null;
+};
 
 export class Day5 extends Solution {
   private mapLabels = [
@@ -73,19 +73,19 @@ export class Day5 extends Solution {
     return nearestLocation.toString();
   }
 
-  private split(seeds: interval, map: map): interval[] {
-    let before: interval = null,
-      inside: interval = null,
-      after: interval = null;
-    if (seeds!.start + seeds!.length <= map.source) before = seeds;
+  private split(seeds: interval, map: map): (interval | null)[] {
+    let before: interval | null = null,
+      inside: interval | null = null,
+      after: interval | null = null;
+    if (seeds.start + seeds.length <= map.source) before = seeds;
     else {
-      if (seeds!.start < map.source) {
-        before = { start: seeds!.start, length: map.source - seeds!.length };
+      if (seeds.start < map.source) {
+        before = { start: seeds.start, length: map.source - seeds.length };
         inside = {
           start: map.source,
-          length: seeds!.length + seeds!.start - map.source,
+          length: seeds.length + seeds.start - map.source,
         };
-      } else inside = seeds!;
+      } else inside = seeds;
       const outside = map.source + map.length;
       if (inside.start >= outside) {
         after = inside;
@@ -104,7 +104,7 @@ export class Day5 extends Solution {
   private getLocationRanges(seeds: interval, mapCategory: map[]): interval[] {
     let seedRanges: interval[] = [];
     let rangePos = 0;
-    let unmapped = seeds;
+    let unmapped: interval | null = seeds;
     while (unmapped && rangePos < mapCategory.length) {
       const currentMap = mapCategory[rangePos++];
       let [before, inside, after] = this.split(unmapped, currentMap);
@@ -156,7 +156,7 @@ export class Day5 extends Solution {
 
     nearestLocation = Math.min.apply(
       Math,
-      seedRanges.map((i) => i!.start),
+      seedRanges.map((i) => i.start),
     );
 
     return nearestLocation.toString();

@@ -25,6 +25,8 @@ export class AOCSolutionsProviderService {
         return new d.Day4();
       case 'day5':
         return new d.Day5();
+      case 'day6':
+        return new d.Day6();
       default:
         return new PendingSolver();
     }

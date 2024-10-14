@@ -27,6 +27,26 @@ export class AOCSolutionsProviderService {
         return new d.Day5();
       case 'day6':
         return new d.Day6();
+      case 'day7':
+        return new d.Day7();
+      case 'day8':
+      case 'day9':
+      case 'day10':
+      case 'day11':
+      case 'day12':
+      case 'day13':
+      case 'day14':
+      case 'day15':
+      case 'day16':
+      case 'day17':
+      case 'day18':
+      case 'day19':
+      case 'day20':
+      case 'day21':
+      case 'day22':
+      case 'day23':
+      case 'day24':
+      case 'day25':
       default:
         return new PendingSolver();
     }

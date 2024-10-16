@@ -1,4 +1,4 @@
-import { Solution } from '../solution';
+import { Solution } from '../../app/domains/solver/models/solution';
 
 type rgb = {
   red: number;

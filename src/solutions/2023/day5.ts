@@ -1,4 +1,4 @@
-import { Solution } from '../solution';
+import { Solution } from '../../app/domains/solver/models/solution';
 
 type map = {
   destination: number;

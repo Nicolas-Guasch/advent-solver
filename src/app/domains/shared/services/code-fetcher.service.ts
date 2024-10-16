@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import * as d from '../../solver/solutions/2023/aoc2023';
-import { Solution } from '../../solver/solutions/solution';
+import * as d from '../../../../solutions/2023/aoc2023';
+import { Solution } from '../../solver/models/solution';
 import { dayId } from '../models/dayId';
 
 @Injectable({

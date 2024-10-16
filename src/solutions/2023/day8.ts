@@ -1,4 +1,4 @@
-import { Solution } from '../solution';
+import { Solution } from '../../app/domains/solver/models/solution';
 
 export class Day8 extends Solution {
   nodeIndex = new Map<string, number>();

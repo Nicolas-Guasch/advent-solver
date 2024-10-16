@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ProblemInput } from '../../shared/models/ProblemInput';
-import { Solution } from '../solutions/solution';
+import { Solution } from '../models/solution';
 import { dayId } from '../../shared/models/dayId';
-import { PendingSolver } from '../solutions/pending-solver';
+import { PendingSolver } from '../models/pending-solver';
 import { Observable, of } from 'rxjs';
 
-import * as d from '../solutions/2023/aoc2023';
+import * as d from '../../../../solutions/2023/aoc2023';
 
 @Injectable({
   providedIn: 'root',

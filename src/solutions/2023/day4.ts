@@ -1,4 +1,4 @@
-import { Solution } from '../solution';
+import { Solution } from '../../app/domains/solver/models/solution';
 
 export class Day4 extends Solution {
   private countWinners(winning: number[], cardNumbers: number[]): number {

@@ -1,4 +1,4 @@
-import { Solution } from '../solution';
+import { Solution } from '../../app/domains/solver/models/solution';
 
 export class Day3 extends Solution {
   private digit(d: string): boolean {

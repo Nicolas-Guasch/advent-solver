@@ -14,11 +14,12 @@ import { Subscription } from 'rxjs';
 import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
 import { dayId } from '../../../shared/models/dayId';
 import { StorageService } from '../../services/storage.service';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-day-selector',
   standalone: true,
-  imports: [],
+  imports: [ButtonComponent],
   templateUrl: './day-selector.component.html',
   styleUrl: './day-selector.component.css',
 })

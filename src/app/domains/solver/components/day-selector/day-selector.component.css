@@ -1,9 +1,25 @@
 select {
   margin-inline-start: 1.2em;
   margin-inline-end: 1em;
+  background-color: #0f0f23;
+  color: #009900;
+  border: 1px solid #009900;
+  border-radius: 2px;
+  padding-inline: 0.5rem;
+  padding-block: 0.2rem;
+  font-family: Consolas;
+  font-size: 19px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 26px;
 }
 
-button {
+select:hover {
+  border-color: #99ff99;
+}
+
+app-button {
   margin-inline-start: 0em;
   margin-inline-end: 1em;
 }
@@ -13,4 +29,8 @@ textarea {
   background-color: #10101a;
   border-color: #333340;
   color: #cccccc;
+}
+
+a {
+  margin-inline-start: 6rem;
 }

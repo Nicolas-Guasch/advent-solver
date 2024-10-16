@@ -61,3 +61,7 @@ code:before {
   margin-inline: 0.5rem;
   flex-shrink: 0;
 }
+
+app-button {
+  display: block;
+}

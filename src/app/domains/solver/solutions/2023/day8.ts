@@ -23,6 +23,7 @@ export class Day8 extends Solution {
   override partOne(input: string): string {
     let lines = input.split('\n').filter((line) => line != '');
     const instructions = lines[0];
+    console.log(instructions.length);
     lines = lines.slice(1);
     let index = 0;
     for (let line of lines) {

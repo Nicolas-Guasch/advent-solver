@@ -8,7 +8,7 @@
     </option>
   }
 </select>
-<button (click)="customHandler()">Load custom input</button>
+<app-button (click)="customHandler()">Load custom input</app-button>
 @if (customInput()) {
   <textarea (change)="submitCustom($event)">{{ textAreaContent() }}</textarea>
 }

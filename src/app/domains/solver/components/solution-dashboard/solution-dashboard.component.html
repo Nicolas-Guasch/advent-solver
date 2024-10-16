@@ -1,6 +1,6 @@
 <div class="control-panel">
-  <button (click)="computePartOne()">Solve Part One</button
-  ><button (click)="computePartTwo()">Solve Part Two</button>
+  <app-button (click)="computePartOne()">Solve Part One</app-button>
+  <app-button (click)="computePartTwo()">Solve Part Two</app-button>
 </div>
 <div class="IO-panel">
   <div class="input-side">
@@ -9,7 +9,7 @@
   <div class="divider" role="separator" aria-label="Divider"></div>
   <div>
     <pre><code><span>Your output:</span><span class="selectable">{{'\n'+problemOutput()}}</span></code></pre>
-    <a (click)="handleCode()">Show code</a>
+    <app-button (click)="handleCode()">Show code</app-button>
     @if (displayCode()) {
       <pre><code>{{solverCode()}}</code></pre>
     }

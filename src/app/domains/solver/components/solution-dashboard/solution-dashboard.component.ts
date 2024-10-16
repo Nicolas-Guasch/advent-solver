@@ -3,11 +3,12 @@ import { ProblemInput } from '../../../shared/models/ProblemInput';
 import { AOCSolutionsProviderService } from '../../services/aoc-solutions-provider.service';
 import { Subscription } from 'rxjs';
 import { CodeFetcherService } from '../../../shared/services/code-fetcher.service';
+import { ButtonComponent } from '../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-solution-dashboard',
   standalone: true,
-  imports: [],
+  imports: [ButtonComponent],
   templateUrl: './solution-dashboard.component.html',
   styleUrl: './solution-dashboard.component.css',
 })

@@ -7,8 +7,18 @@ body {
 }
 
 a {
-  color: #cccccc;
+  color: #009900;
   font-family: Consolas;
+  font-size: 17px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 300;
+  line-height: 24px;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #99ff99;
 }
 
 h1 {

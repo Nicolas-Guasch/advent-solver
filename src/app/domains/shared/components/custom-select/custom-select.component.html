@@ -1,0 +1,27 @@
+<div class="select-wrapper">
+  @if (label().length > 0) {
+    <label [class.error]="error()" class="label-text">{{ label() }}</label>
+  }
+  <div
+    #select
+    tabindex="{{ disabled() ? -1 : 0 }}"
+    [class]="mainSelectClasses()"
+    (click)="showDropdown()"
+    (keydown)="onKeyDown($event)"
+    (blur)="onTouched()"
+    [attr.id]="inputId()"
+    role="listbox"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-labelledby]="ariaLabelledby() || null"
+    [attr.aria-multiselectable]="false"
+    [innerHTML]="displayText"
+  ></div>
+  <span class="dropdown-arrow" (click)="onDropMenuIconClick($event)"></span>
+  <ng-template cdk-portal class="dropdown">
+    <div class="dropdown-menu">
+      <div class="dropdown-options-container" (keydown)="onKeyDown($event)">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </ng-template>
+</div>

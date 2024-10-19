@@ -92,6 +92,7 @@ export class DaySelectorComponent {
     const inputFilename = selectedOption + '.txt';
     if (selectedOption !== this.selectedDay()) {
       this.textAreaContent.set('');
+      this.customContent.emit({ problemId: selectedOption, input: '' });
     }
     this.selectedDay.set(selectedOption);
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
@@ -99,7 +100,6 @@ export class DaySelectorComponent {
       .fetchInputFile(inputFilename)
       .subscribe({
         next: (data) => {
-          console.log(selectedOption);
           this.selectorOutput.emit({
             problemId: selectedOption,
             input: data,

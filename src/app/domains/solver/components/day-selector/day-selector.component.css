@@ -16,7 +16,7 @@ select {
 }
 
 .select-wrapper {
-  width: 9.5rem;
+  margin-right: 1rem;
   flex-shrink: 0;
 }
 

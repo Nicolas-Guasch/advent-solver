@@ -4,16 +4,21 @@ import {
   OverlayRef,
   OverlayConfig,
 } from '@angular/cdk/overlay';
-import { CdkPortal } from '@angular/cdk/portal';
+import { CdkPortal, PortalModule } from '@angular/cdk/portal';
 import {
   Component,
+  contentChildren,
   ElementRef,
+  inject,
   input,
   output,
   signal,
   viewChild,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { CustomSelectService } from '../../services/custom-select.service';
+import { CustomSelectOptionComponent } from './custom-select-option/custom-select-option.component';
+import { noop } from 'rxjs';
 
 export interface CustomSelectEvent {
   source: CustomSelectComponent;
@@ -23,10 +28,11 @@ export interface CustomSelectEvent {
 @Component({
   selector: 'app-custom-select',
   standalone: true,
-  imports: [OverlayModule],
+  imports: [OverlayModule, PortalModule],
   templateUrl: './custom-select.component.html',
   styleUrl: './custom-select.component.css',
   host: { '(window:resize)': 'onWinResize()' },
+  providers: [CustomSelectService],
 })
 export class CustomSelectComponent {
   public inputId = input<string>('', { alias: 'id' });
@@ -49,14 +55,23 @@ export class CustomSelectComponent {
 
   public displayText!: SafeHtml;
 
+  public options = contentChildren<CustomSelectOptionComponent>(
+    CustomSelectOptionComponent,
+  );
+
+  private selectedOption!: CustomSelectOptionComponent;
   private showing: boolean = false;
   private showPlaceholder: boolean = true;
   private overlayRef!: OverlayRef;
 
+  private selectService: CustomSelectService = inject(CustomSelectService);
+
   constructor(
     private domSanitizer: DomSanitizer,
     private overlay: Overlay,
-  ) {}
+  ) {
+    this.selectService.register(this);
+  }
 
   ngOnInit() {
     if (!this.displayText) {
@@ -66,13 +81,38 @@ export class CustomSelectComponent {
     }
   }
 
+  ngAfterContentInit() {
+    for (let option of this.options()) {
+      if (option.selected()) {
+        console.log(option.value());
+        this.selectOption(option);
+        break;
+      }
+    }
+  }
+
   public mainSelectClasses(): { [key: string]: any } {
     return {
       mainSelect: true,
-      error: this.error,
-      disabled: this.disabled,
-      placeholder: this.placeholder,
+      error: this.error(),
+      disabled: this.disabled(),
+      placeholder: this.showPlaceholder,
     };
+  }
+
+  public onChangeFn: any = (_: any) => noop();
+
+  public registerOnChange(fn: any): void {
+    this.onChangeFn = fn;
+  }
+
+  private onChange(): void {
+    this.onChangeFn(this.selectedOption.value);
+
+    this.change.emit({
+      source: this,
+      selected: this.selectedOption,
+    });
   }
 
   public onTouched(): void {}
@@ -89,8 +129,8 @@ export class CustomSelectComponent {
 
   showDropdown() {
     this.overlayRef = this.overlay.create(this.getOverlayConfig());
-    this.overlayRef.attach(this.contentTemplate);
-    this.syncWidth();
+    this.overlayRef.attach(this.contentTemplate());
+    //this.syncWidth();
     this.overlayRef.backdropClick().subscribe(() => this.hide());
     this.showing = true;
   }
@@ -141,5 +181,28 @@ export class CustomSelectComponent {
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
     });
+  }
+
+  private updateDisplayText(): void {
+    if (this.selectedOption !== undefined) {
+      this.displayText = this.domSanitizer.bypassSecurityTrustHtml(
+        this.selectedOption.getOptionElement().innerHTML,
+      );
+      this.showPlaceholder = false;
+    } else {
+      this.displayText = this.domSanitizer.bypassSecurityTrustHtml(
+        this.placeholder(),
+      );
+      this.showPlaceholder = true;
+    }
+  }
+
+  public selectOption(option: CustomSelectOptionComponent) {
+    if (this.showing) this.hide();
+    if (this.selectedOption !== option) {
+      this.selectedOption = option;
+      this.onChange();
+      this.updateDisplayText();
+    }
   }
 }

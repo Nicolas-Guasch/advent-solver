@@ -1,19 +1,27 @@
-<select #dayselect (change)="handleDaySelect()">
-  @for (day of adventDays(); track day.number) {
-    <option
-      [value]="day.selectValue"
-      [selected]="selectedDay() === day.selectValue"
-    >
-      {{ day.label }}
-    </option>
-  }
-</select>
+<div class="select-wrapper">
+  <app-custom-select
+    #daySelect
+    id="daySelect"
+    placeholder="Day:"
+    (change)="handleDaySelect($event)"
+  >
+    @for (day of adventDays(); track day.number) {
+      <app-custom-select-option
+        [value]="day.selectValue"
+        [selected]="selectedDay() === day.selectValue"
+      >
+        {{ day.label }}
+      </app-custom-select-option>
+    }
+  </app-custom-select>
+</div>
+
 <app-button (click)="customHandler()">Load custom input</app-button>
 @if (customInput()) {
   <textarea (change)="submitCustom($event)">{{ textAreaContent() }}</textarea>
 }
 <div>
   <a [href]="selectedDayStatementUrl()" target="_blank"
-    >Problem Statement for {{ selectedDayData()?.label }}</a
+    >Problem Statement for day {{ selectedDayData()?.label }}</a
   >
 </div>

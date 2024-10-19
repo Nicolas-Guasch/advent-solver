@@ -15,6 +15,11 @@ select {
   line-height: 26px;
 }
 
+.select-wrapper {
+  width: 9.5rem;
+  flex-shrink: 0;
+}
+
 select:hover {
   border-color: #99ff99;
 }

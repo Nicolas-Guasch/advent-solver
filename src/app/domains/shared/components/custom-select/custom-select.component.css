@@ -1,0 +1,106 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.select-wrapper {
+  min-width: 115px;
+  position: relative;
+  margin: 0;
+  outline: 0;
+}
+
+.select-wrapper .label-text {
+  margin-top: 1px;
+  margin-bottom: 5px;
+  margin-left: 4px;
+  display: block;
+  font-family: Consolas;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.select-wrapper .label-text.error {
+  color: #d11818;
+}
+
+.select-wrapper .mainSelect {
+  width: 100%;
+  border: 1px solid #009900;
+  border-radius: 4px;
+  padding: 19px 14px 18px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: Consolas;
+  line-height: 1.1;
+  outline: 0;
+  user-select: none;
+  white-space: nowrap;
+  overflow: clip;
+  text-overflow: ellipsis;
+}
+
+.select-wrapper .mainSelect:focus:not(.disabled) {
+  outline: 0;
+  border: 2px solid #99ff99;
+  padding: 18px 13px 17px;
+}
+
+.select-wrapper .mainSelect.highlight {
+  color: #99ff99;
+}
+
+.select-wrapper .mainSelect {
+  color: #009900;
+}
+
+.select-wrapper .mainSelect.disabled {
+  cursor: default;
+  background-color: #c3c3d3;
+  color: #009900;
+  border-color: #c3c3d3;
+}
+
+.select-wrapper .mainSelect.disabled + .dropdown-arrow {
+  cursor: default;
+  background-color: #8ddcf1;
+}
+
+.select-wrapper .mainSelect.error {
+  border: 1px solid #d11818;
+}
+
+.select-wrapper .dropdown-arrow {
+  position: absolute;
+  right: 20px;
+  bottom: 24px;
+  cursor: pointer;
+  width: 16px;
+  height: 8px;
+  background-color: #009900;
+  clip-path: path(
+    "M10.59 0.0899658L6 4.66997L1.41 0.0899658L0 1.49997L6 7.49997L12 1.49997L10.59 0.0899658Z"
+  );
+}
+
+.dropdown-menu {
+  display: block;
+  width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+  background-color: #0f0f23;
+  border: 1px solid #009900;
+  max-height: 31.5rem;
+  overflow: hidden;
+}
+
+.dropdown-menu .dropdown-options-container {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  max-height: 21.25rem;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}

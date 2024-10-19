@@ -17,7 +17,7 @@
     [innerHTML]="displayText"
   ></div>
   <span class="dropdown-arrow" (click)="onDropMenuIconClick($event)"></span>
-  <ng-template cdk-portal class="dropdown">
+  <ng-template cdkPortal class="dropdown">
     <div class="dropdown-menu">
       <div class="dropdown-options-container" (keydown)="onKeyDown($event)">
         <ng-content></ng-content>

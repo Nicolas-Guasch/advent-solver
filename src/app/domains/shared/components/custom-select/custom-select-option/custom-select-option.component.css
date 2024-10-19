@@ -1,0 +1,44 @@
+:host {
+  display: block;
+  padding: 0 14px;
+  height: 40px;
+  line-height: 40px;
+  color: #009900;
+  background-color: #0f0f23;
+  white-space: nowrap;
+  overflow: clip;
+  text-overflow: ellipsis;
+  font-family: Consolas;
+  font-size: 16px;
+  user-select: none;
+}
+
+.selected {
+  color: #99ff99;
+  font-weight: bold;
+}
+
+:host:hover {
+  outline: none;
+  background-color: #0b0b1b;
+}
+
+.active:focus {
+  outline: none;
+  background-color: #0b0b1b;
+}
+
+.disabled {
+  color: #a1a1b6;
+  cursor: auto;
+}
+
+.disabled:hover,
+.disabled:focus {
+  background-color: #0f0f23;
+}
+
+.hidden {
+  display: none;
+  height: 0;
+}

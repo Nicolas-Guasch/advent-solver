@@ -15,11 +15,20 @@ import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
 import { dayId } from '../../../shared/models/dayId';
 import { StorageService } from '../../services/storage.service';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
+import {
+  CustomSelectComponent,
+  CustomSelectEvent,
+} from '../../../shared/components/custom-select/custom-select.component';
+import { CustomSelectOptionComponent } from '../../../shared/components/custom-select/custom-select-option/custom-select-option.component';
 
 @Component({
   selector: 'app-day-selector',
   standalone: true,
-  imports: [ButtonComponent],
+  imports: [
+    ButtonComponent,
+    CustomSelectComponent,
+    CustomSelectOptionComponent,
+  ],
   templateUrl: './day-selector.component.html',
   styleUrl: './day-selector.component.css',
 })
@@ -30,7 +39,7 @@ export class DaySelectorComponent {
   currentFileRequest: Subscription | null = null;
 
   adventDays = signal<DaySelectOption[]>([]);
-  selectorElement = viewChild.required<ElementRef>('dayselect');
+  //selectorElement = viewChild.required<ElementRef>('dayselect');
   selectedDay = signal<string>(this.storeService.getSelectedDay());
   customInput = signal<boolean>(this.storeService.isCustomActive());
   textAreaContent = signal<string>(this.storeService.getCustomInput());
@@ -50,7 +59,7 @@ export class DaySelectorComponent {
   constructor() {
     let days = [];
     for (let i = 1; i <= 25; i++) {
-      days.push({ number: i, selectValue: 'day' + i, label: 'Day ' + i });
+      days.push({ number: i, selectValue: 'day' + i, label: i.toString() });
     }
     this.adventDays.set(days);
     effect(() => {
@@ -66,7 +75,6 @@ export class DaySelectorComponent {
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.handleDaySelect();
     if (this.customInput()) {
       this.customContent.emit({
         problemId: this.selectedDay() as dayId,
@@ -79,8 +87,8 @@ export class DaySelectorComponent {
     if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
   }
 
-  handleDaySelect() {
-    const selectedOption = this.selectorElement().nativeElement.value as dayId;
+  handleDaySelect(event: CustomSelectEvent) {
+    const selectedOption = event.selected.value() as dayId;
     const inputFilename = selectedOption + '.txt';
     if (selectedOption !== this.selectedDay()) {
       this.textAreaContent.set('');
@@ -90,8 +98,13 @@ export class DaySelectorComponent {
     this.currentFileRequest = this.inputFetcher
       .fetchInputFile(inputFilename)
       .subscribe({
-        next: (data) =>
-          this.selectorOutput.emit({ problemId: selectedOption, input: data }),
+        next: (data) => {
+          console.log(selectedOption);
+          this.selectorOutput.emit({
+            problemId: selectedOption,
+            input: data,
+          });
+        },
         error: () => {
           this.selectorOutput.emit({
             problemId: selectedOption,
@@ -103,7 +116,7 @@ export class DaySelectorComponent {
       });
   }
   customHandler() {
-    const selectedOption = this.selectorElement().nativeElement.value as dayId;
+    const selectedOption = this.selectedDay() as dayId;
     this.customInput.update((val) => !val);
     if (!this.customInput()) {
       this.textAreaContent.set('');
@@ -112,7 +125,7 @@ export class DaySelectorComponent {
   }
 
   submitCustom(event: Event) {
-    const selectedOption = this.selectorElement().nativeElement.value as dayId;
+    const selectedOption = this.selectedDay() as dayId;
     const textArea = event.target as HTMLTextAreaElement;
     const customInput = textArea.value;
     this.storeService.storeCustomInput(customInput);

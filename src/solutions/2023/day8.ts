@@ -41,14 +41,12 @@ export class Day8 extends Solution {
     ).toString();
   }
 
-  ghostSearch(
-    nodes: string[],
+  travel(
+    u: string,
     instructions: { directions: string; index: number },
-  ): number {
-    let goalReached = false;
-
-    while (!goalReached) {
-      goalReached = true;
+    steps: number,
+  ): string {
+    while (instructions.index < steps) {
       const next =
         instructions.directions[
           instructions.index % instructions.directions.length
@@ -56,16 +54,41 @@ export class Day8 extends Solution {
           ? 1
           : 0;
       instructions.index++;
-      for (let [i, u] of nodes.entries()) {
-        const uIndex = this.nodeIndex.get(u)!;
-        const v = this.adjacent[uIndex][next];
-        if (v[2] != 'Z') goalReached = false;
-        nodes[i] = v;
-      }
+      const uIndex = this.nodeIndex.get(u)!;
+      const v = this.adjacent[uIndex][next];
+      u = v;
       //console.log(nodes);
     }
 
-    return instructions.index;
+    return u;
+  }
+
+  inspectLoop(start: string, instructions: string) {
+    let visited = new Map<string, number>();
+
+    let index = 0;
+    let loopData = { firstNode: '', index: -1, steps: -1, loopLength: -1 };
+    let u = start;
+    while (loopData.firstNode == '') {
+      const instructionsIndex = index % instructions.length;
+      const key = u + instructionsIndex.toString();
+      if (visited.has(key)) {
+        const length = index - visited.get(key)!;
+        loopData.firstNode = u;
+        loopData.index = instructionsIndex;
+        loopData.steps = index;
+        loopData.loopLength = length;
+      } else {
+        visited.set(key, index);
+        const v =
+          this.adjacent[this.nodeIndex.get(u)!][
+            instructions[instructionsIndex] == 'R' ? 1 : 0
+          ];
+        u = v;
+        index++;
+      }
+    }
+    return loopData;
   }
 
   override partTwo(input: string): string {
@@ -83,10 +106,13 @@ export class Day8 extends Solution {
       this.adjacent.push([neighborLeft, neighborRight]);
       if (node[2] == 'A') startNodes.push(node);
     }
-    console.log(startNodes);
-    return this.ghostSearch(startNodes, {
-      directions: instructions,
-      index: 0,
-    }).toString();
+
+    let result = '';
+
+    for (let u of startNodes) {
+      console.log(this.inspectLoop(u, instructions));
+    }
+
+    return result;
   }
 }

@@ -23,7 +23,6 @@ export class Day8 extends Solution {
   override partOne(input: string): string {
     let lines = input.split('\n').filter((line) => line != '');
     const instructions = lines[0];
-    console.log(instructions.length);
     lines = lines.slice(1);
     let index = 0;
     for (let line of lines) {
@@ -39,28 +38,6 @@ export class Day8 extends Solution {
       { directions: instructions, index: 0 },
       'ZZZ',
     ).toString();
-  }
-
-  travel(
-    u: string,
-    instructions: { directions: string; index: number },
-    steps: number,
-  ): string {
-    while (instructions.index < steps) {
-      const next =
-        instructions.directions[
-          instructions.index % instructions.directions.length
-        ] === 'R'
-          ? 1
-          : 0;
-      instructions.index++;
-      const uIndex = this.nodeIndex.get(u)!;
-      const v = this.adjacent[uIndex][next];
-      u = v;
-      //console.log(nodes);
-    }
-
-    return u;
   }
 
   inspectLoop(start: string, instructions: string) {
@@ -91,6 +68,14 @@ export class Day8 extends Solution {
     return loopData;
   }
 
+  gcd(a: number, b: number): number {
+    return b ? this.gcd(b, a % b) : a;
+  }
+
+  lcm(a: number, b: number): number {
+    return a * (b / this.gcd(a, b));
+  }
+
   override partTwo(input: string): string {
     let lines = input.split('\n').filter((line) => line != '');
     const instructions = lines[0];
@@ -109,9 +94,13 @@ export class Day8 extends Solution {
 
     let result = '';
 
+    let loopsLCM = 1;
+
     for (let u of startNodes) {
-      console.log(this.inspectLoop(u, instructions));
+      const loopData = this.inspectLoop(u, instructions);
+      loopsLCM = this.lcm(loopsLCM, loopData.loopLength);
     }
+    result = loopsLCM.toString();
 
     return result;
   }

@@ -32,6 +32,7 @@ export class AOCSolutionsProviderService {
       case 'day8':
         return new d.Day8();
       case 'day9':
+        return new d.Day9();
       case 'day10':
       case 'day11':
       case 'day12':

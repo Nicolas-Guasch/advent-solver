@@ -6,7 +6,7 @@
 }
 
 .select-wrapper {
-  min-width: 115px;
+  min-width: 75px;
   position: relative;
   margin: 0;
   outline: 0;
@@ -30,7 +30,7 @@
   width: 100%;
   border: 1px solid #009900;
   border-radius: 4px;
-  padding: 19px 14px 18px;
+  padding: 7px 14px 6px;
   font-size: 16px;
   font-weight: 400;
   font-family: Consolas;
@@ -45,7 +45,17 @@
 .select-wrapper .mainSelect:focus:not(.disabled) {
   outline: 0;
   border: 2px solid #99ff99;
-  padding: 18px 13px 17px;
+  padding: 6px 13px 5px;
+}
+
+.select-wrapper .mainSelect:hover {
+  border: 1px solid #99ff99;
+  color: #99ff99;
+}
+
+.select-wrapper .mainSelect:has(+ .dropdown-arrow:hover) {
+  border: 1px solid #99ff99;
+  color: #99ff99;
 }
 
 .select-wrapper .mainSelect.highlight {
@@ -74,15 +84,23 @@
 
 .select-wrapper .dropdown-arrow {
   position: absolute;
-  right: 20px;
-  bottom: 24px;
-  cursor: pointer;
+  right: 12px;
+  bottom: 12px;
+  cursor: auto;
   width: 16px;
   height: 8px;
   background-color: #009900;
   clip-path: path(
     "M10.59 0.0899658L6 4.66997L1.41 0.0899658L0 1.49997L6 7.49997L12 1.49997L10.59 0.0899658Z"
   );
+}
+
+.select-wrapper .dropdown-arrow:hover {
+  background-color: #99ff99;
+}
+
+.select-wrapper .mainSelect:hover + .dropdown-arrow {
+  background-color: #99ff99;
 }
 
 .dropdown-menu {

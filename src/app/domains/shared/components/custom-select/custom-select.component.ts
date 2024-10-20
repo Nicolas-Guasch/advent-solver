@@ -84,7 +84,6 @@ export class CustomSelectComponent {
   ngAfterContentInit() {
     for (let option of this.options()) {
       if (option.selected()) {
-        console.log(option.value());
         this.selectOption(option);
         break;
       }

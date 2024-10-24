@@ -1,5 +1,4 @@
-import { sequence } from '@angular/animations';
-import { Solution } from '../app/domains/solver/models/solution';
+import { Solution } from '../../app/domains/solver/models/solution';
 
 export class Day9 extends Solution {
   extrapolate(sequence: number[]): number {

@@ -10,7 +10,7 @@ type move = {
   dy: number;
 };
 
-class explorer {
+export class explorer {
   currentPos: position;
   direction: move = { dx: +1, dy: 0 };
   inside: move[];

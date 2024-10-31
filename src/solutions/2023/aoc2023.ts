@@ -8,6 +8,8 @@ import { Day7 } from './day7';
 import { Day8 } from './day8';
 import { Day9 } from './day9';
 import { Day10, explorer } from './day10';
+import { Day11 } from './day11';
+import { Day12 } from './day12';
 
 export {
   Day1,
@@ -21,4 +23,6 @@ export {
   Day9,
   Day10,
   explorer,
+  Day11,
+  Day12,
 };

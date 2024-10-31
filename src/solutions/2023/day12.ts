@@ -64,13 +64,11 @@ export class Day12 extends Solution {
   override partTwo(input: string): string {
     let unfolded: string = '';
     for (let line of input.split('\n').filter((line) => line != '')) {
-      console.log(line);
       let [records, clues] = line.split(' ');
       records = Array(5).fill(records).join('?');
       clues = Array(5).fill(clues).join(',');
       line = [records, clues].join(' ');
       unfolded += line + '\n';
-      console.log(line);
     }
 
     return this.partOne(unfolded);

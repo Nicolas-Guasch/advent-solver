@@ -1,23 +1,10 @@
 <main class="container">
   <header>
     <h1>Solutions to Advent of Code 2023</h1>
-    <nav>
+    <div>
       <span>Choose year:</span>
-      <nav>
-        <ul>
-          @for (year of availableYears; track $index) {
-            <li>
-              <a
-                role="button"
-                [class.selected]="year === contestYear()"
-                (click)="changeYear(year)"
-                >{{ year }}</a
-              >
-            </li>
-          }
-        </ul>
-      </nav>
-    </nav>
+      <app-year-nav (yearChange)="yearHandler($event)"></app-year-nav>
+    </div>
   </header>
   <app-day-selector
     (selectorOutput)="daySelectedHandler($event)"

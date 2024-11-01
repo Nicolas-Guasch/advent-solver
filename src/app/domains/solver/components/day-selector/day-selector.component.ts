@@ -35,8 +35,7 @@ import { CustomSelectOptionComponent } from '../../../shared/components/custom-s
 export class DaySelectorComponent {
   inputFetcher = inject(InputFetcherService);
   storeService = inject(StorageService);
-  selectorOutput = output<ProblemInput>();
-  currentFileRequest: Subscription | null = null;
+  selectorOutput = output<dayId>();
 
   adventDays = signal<DaySelectOption[]>([]);
   //selectorElement = viewChild.required<ElementRef>('dayselect');
@@ -44,7 +43,7 @@ export class DaySelectorComponent {
   customInput = signal<boolean>(this.storeService.isCustomActive());
   textAreaContent = signal<string>(this.storeService.getCustomInput());
 
-  customContent = output<ProblemInput>();
+  customContent = output<string>();
 
   selectedDayData = computed(() => {
     const day = this.adventDays().find(
@@ -76,15 +75,8 @@ export class DaySelectorComponent {
 
   ngAfterViewInit() {
     if (this.customInput()) {
-      this.customContent.emit({
-        problemId: this.selectedDay() as dayId,
-        input: this.textAreaContent(),
-      });
+      this.customContent.emit(this.textAreaContent());
     }
-  }
-
-  ngOnDestroy() {
-    if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
   }
 
   handleDaySelect(event: CustomSelectEvent) {
@@ -92,28 +84,10 @@ export class DaySelectorComponent {
     const inputFilename = selectedOption + '.txt';
     if (selectedOption !== this.selectedDay()) {
       this.textAreaContent.set('');
-      this.customContent.emit({ problemId: selectedOption, input: '' });
+      this.customContent.emit('');
     }
     this.selectedDay.set(selectedOption);
-    if (this.currentFileRequest) this.currentFileRequest.unsubscribe();
-    this.currentFileRequest = this.inputFetcher
-      .fetchInputFile(inputFilename)
-      .subscribe({
-        next: (data) => {
-          this.selectorOutput.emit({
-            problemId: selectedOption,
-            input: data,
-          });
-        },
-        error: () => {
-          this.selectorOutput.emit({
-            problemId: selectedOption,
-            input:
-              selectedOption +
-              '.txt not found. Copy your own input files to\npublic/input-files/ before building the site\nin order to use them here.',
-          });
-        },
-      });
+    this.selectorOutput.emit(selectedOption);
   }
   customHandler() {
     const selectedOption = this.selectedDay() as dayId;
@@ -121,7 +95,7 @@ export class DaySelectorComponent {
     if (!this.customInput()) {
       this.textAreaContent.set('');
     }
-    this.customContent.emit({ problemId: selectedOption, input: '' });
+    this.customContent.emit('');
   }
 
   submitCustom(event: Event) {
@@ -129,6 +103,6 @@ export class DaySelectorComponent {
     const textArea = event.target as HTMLTextAreaElement;
     const customInput = textArea.value;
     this.storeService.storeCustomInput(customInput);
-    this.customContent.emit({ problemId: selectedOption, input: customInput });
+    this.customContent.emit(customInput);
   }
 }

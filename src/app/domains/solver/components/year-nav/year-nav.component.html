@@ -1,0 +1,14 @@
+<nav>
+  <ul>
+    @for (year of availableYears; track $index) {
+      <li>
+        <a
+          role="button"
+          [class.selected]="year === contestYear()"
+          (click)="changeYear(year)"
+          >{{ year }}</a
+        >
+      </li>
+    }
+  </ul>
+</nav>

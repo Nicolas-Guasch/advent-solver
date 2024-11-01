@@ -1,25 +1,49 @@
 import { Injectable } from '@angular/core';
+import { AOCYear } from '../models/aoc-year';
 
 interface selectStore {
   dayLabel: string;
   customInput: string;
 }
 
+const YEARLABEL = 'contestYear';
+const SELECTLABEL = 'select';
+
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  storedData: selectStore;
+  private storedData: selectStore;
+  private storedYear: AOCYear;
 
   constructor() {
-    const storage = localStorage.getItem('select');
+    this.storedYear = this.retrieveYear();
+    this.storedData = this.retrieveSelectData();
+  }
+
+  private retrieveYear(): AOCYear {
+    const DEFAULTYEAR = '2023';
+    const storage = localStorage.getItem(YEARLABEL);
     if (storage) {
-      this.storedData = JSON.parse(storage);
+      return JSON.parse(storage);
+    } else {
+      return DEFAULTYEAR;
+    }
+  }
+
+  private retrieveSelectData(): selectStore {
+    const storage = localStorage.getItem(SELECTLABEL);
+    if (storage) {
+      return JSON.parse(storage);
     } else
-      this.storedData = {
+      return {
         dayLabel: 'day1',
         customInput: '',
       };
+  }
+
+  public getYear(): AOCYear {
+    return this.storedYear;
   }
 
   public getSelectedDay(): string {
@@ -36,11 +60,16 @@ export class StorageService {
 
   public storeSelectedDay(day: string) {
     this.storedData.dayLabel = day;
-    localStorage.setItem('select', JSON.stringify(this.storedData));
+    localStorage.setItem(SELECTLABEL, JSON.stringify(this.storedData));
   }
 
   public storeCustomInput(input: string) {
     this.storedData.customInput = input;
-    localStorage.setItem('select', JSON.stringify(this.storedData));
+    localStorage.setItem(SELECTLABEL, JSON.stringify(this.storedData));
+  }
+
+  public storeYear(year: AOCYear) {
+    this.storedYear = year;
+    localStorage.setItem(YEARLABEL, JSON.stringify(this.storedYear));
   }
 }

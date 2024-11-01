@@ -1,5 +1,24 @@
 <main class="container">
-  <h1>Solutions to Advent of Code 2023</h1>
+  <header>
+    <h1>Solutions to Advent of Code 2023</h1>
+    <nav>
+      <span>Choose year:</span>
+      <nav>
+        <ul>
+          @for (year of availableYears; track $index) {
+            <li>
+              <a
+                role="button"
+                [class.selected]="year === contestYear()"
+                (click)="changeYear(year)"
+                >{{ year }}</a
+              >
+            </li>
+          }
+        </ul>
+      </nav>
+    </nav>
+  </header>
   <app-day-selector
     (selectorOutput)="daySelectedHandler($event)"
     (customContent)="customInputHandler($event)"

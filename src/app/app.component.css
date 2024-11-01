@@ -7,3 +7,27 @@ app-day-selector {
   display: flex;
   align-items: start;
 }
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+nav {
+  display: inline;
+  ul {
+    display: inline-flex;
+  }
+  li {
+    list-style: none;
+    margin-right: 1rem;
+  }
+  a {
+    cursor: default;
+    padding-block: 0.5rem;
+
+    &.selected {
+      text-decoration: underline;
+    }
+  }
+}

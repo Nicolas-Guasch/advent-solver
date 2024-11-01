@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, effect, inject, output, signal } from '@angular/core';
 import { AOCYear } from '../../models/aoc-year';
 import { StorageService } from '../../services/storage.service';
 import { AOCSolutionsProviderService } from '../../services/aoc-solutions-provider.service';
@@ -20,12 +20,19 @@ export class YearNavComponent {
   contestYear = signal<AOCYear>(this.storageService.getYear());
   yearChange = output<AOCYear>();
   availableYears: AOCYear[] = ['2023', '2024'];
+
+  constructor() {
+    effect(() => {
+      const year = this.contestYear();
+      this.storageService.storeYear(year);
+    });
+  }
+
   changeYear(year: AOCYear) {
     this.contestYear.set(year);
     this.solutionsProvider.changeYear(year);
     this.inputFetcher.changeYear(year);
     this.codeFetcher.changeYear(year);
-    this.storageService.storeYear(year);
     this.yearChange.emit(year);
   }
 }

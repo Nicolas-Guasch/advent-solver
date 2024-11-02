@@ -4,6 +4,8 @@ My solutions to the popular yearly coding challenge known as [Advent of Code](ht
 
 In this repository you may find a collection of TypeScript implementations of my solutions alongside a web application dashboard in which to run them.
 
+![A snapshot of the web dashboard, set to solve the first day of 2023](/public/dashboard-sample.jpg)
+
 The code for each day can be found in `src/solutions`. Some implementations may make assumptions about the expected input that might not be explicitly stated as a constraint by Advent of Code, based on observations of my personal input files. Whenever possible, a broader input range is taken into account.
 
 Currently, the solutions to the following challenges are present:

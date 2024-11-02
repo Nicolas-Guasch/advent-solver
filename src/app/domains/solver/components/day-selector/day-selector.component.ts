@@ -4,6 +4,7 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
   output,
   signal,
   viewChild,
@@ -20,6 +21,7 @@ import {
   CustomSelectEvent,
 } from '../../../shared/components/custom-select/custom-select.component';
 import { CustomSelectOptionComponent } from '../../../shared/components/custom-select/custom-select-option/custom-select-option.component';
+import { AOCYear } from '../../models/aoc-year';
 
 @Component({
   selector: 'app-day-selector',
@@ -35,6 +37,8 @@ import { CustomSelectOptionComponent } from '../../../shared/components/custom-s
 export class DaySelectorComponent {
   inputFetcher = inject(InputFetcherService);
   storeService = inject(StorageService);
+
+  year = input.required<AOCYear>();
   selectorOutput = output<dayId>();
 
   adventDays = signal<DaySelectOption[]>([]);
@@ -52,7 +56,8 @@ export class DaySelectorComponent {
     return day;
   });
   selectedDayStatementUrl = computed(
-    () => `https://adventofcode.com/2023/day/${this.selectedDayData()?.number}`,
+    () =>
+      `https://adventofcode.com/${this.year()}/day/${this.selectedDayData()?.number}`,
   );
 
   constructor() {

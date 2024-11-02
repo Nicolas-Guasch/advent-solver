@@ -1,6 +1,6 @@
 <main class="container">
   <header>
-    <h1>Solutions to Advent of Code 2023</h1>
+    <h1>Solutions to Advent of Code {{ year() }}</h1>
     <div>
       <span>Choose year:</span>
       <app-year-nav (yearChange)="yearHandler($event)"></app-year-nav>
@@ -9,6 +9,7 @@
   <app-day-selector
     (selectorOutput)="daySelectedHandler($event)"
     (customContent)="customInputHandler($event)"
+    [year]="year()"
   ></app-day-selector>
 
   @if (problemInput()) {

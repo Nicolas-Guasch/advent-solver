@@ -87,6 +87,7 @@ export class CodeFetcherService {
       case 'day12':
         return d23.Day12.toString();
       case 'day13':
+        return d23.Day13.toString();
       case 'day14':
       case 'day15':
       case 'day16':

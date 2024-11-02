@@ -6,7 +6,6 @@ import { PendingSolver } from '../models/pending-solver';
 import { Observable, of } from 'rxjs';
 
 import * as d23 from '../../../../solutions/2023/aoc2023';
-import { AOCYear } from '../models/aoc-year';
 import { CurrentProblemService } from './current-problem.service';
 
 @Injectable({

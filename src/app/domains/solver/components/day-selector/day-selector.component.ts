@@ -1,18 +1,6 @@
-import {
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  output,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { Component, computed, inject, output, signal } from '@angular/core';
 import { DaySelectOption } from '../../../../domains/shared/models/day';
 import { InputFetcherService } from '../../../../domains/shared/services/input-fetcher.service';
-import { Subscription, take } from 'rxjs';
-import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
 import { dayId } from '../../../shared/models/dayId';
 import { StorageService } from '../../services/storage.service';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
@@ -21,9 +9,8 @@ import {
   CustomSelectEvent,
 } from '../../../shared/components/custom-select/custom-select.component';
 import { CustomSelectOptionComponent } from '../../../shared/components/custom-select/custom-select-option/custom-select-option.component';
-import { AOCYear } from '../../models/aoc-year';
 import { CurrentProblemService } from '../../services/current-problem.service';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-day-selector',

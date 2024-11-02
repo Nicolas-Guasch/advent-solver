@@ -1,8 +1,5 @@
 import { Component, effect, inject, output, signal } from '@angular/core';
 import { AOCYear } from '../../models/aoc-year';
-import { AOCSolutionsProviderService } from '../../services/aoc-solutions-provider.service';
-import { CodeFetcherService } from '../../../shared/services/code-fetcher.service';
-import { InputFetcherService } from '../../../shared/services/input-fetcher.service';
 import { CurrentProblemService } from '../../services/current-problem.service';
 
 @Component({

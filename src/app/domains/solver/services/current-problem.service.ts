@@ -2,7 +2,7 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { StorageService } from './storage.service';
 import { dayId } from '../../shared/models/dayId';
 import { AOCYear } from '../models/aoc-year';
-import { Subject, take } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface CurrentProblemState {

@@ -78,6 +78,7 @@ export class DaySelectorComponent {
     if (selectedOption !== this.state.day()) {
       this.textAreaContent.set('');
       this.customInput.set(false);
+      this.storeService.saveCustom('');
       this.customContent.emit('');
     }
     this.state.changeDay$.next(selectedOption);
@@ -87,6 +88,7 @@ export class DaySelectorComponent {
     this.customInput.update((value) => !value);
     if (!this.customInput()) {
       this.textAreaContent.set('');
+      this.storeService.saveCustom('');
     }
     this.customContent.emit('');
   }

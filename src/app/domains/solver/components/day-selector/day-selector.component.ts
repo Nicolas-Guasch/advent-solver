@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { DaySelectOption } from '../../../../domains/shared/models/day';
 import { InputFetcherService } from '../../../../domains/shared/services/input-fetcher.service';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { ProblemInput } from '../../../../domains/shared/models/ProblemInput';
 import { dayId } from '../../../shared/models/dayId';
 import { StorageService } from '../../services/storage.service';
@@ -22,6 +22,8 @@ import {
 } from '../../../shared/components/custom-select/custom-select.component';
 import { CustomSelectOptionComponent } from '../../../shared/components/custom-select/custom-select-option/custom-select-option.component';
 import { AOCYear } from '../../models/aoc-year';
+import { CurrentProblemService } from '../../services/current-problem.service';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-day-selector',
@@ -37,66 +39,65 @@ import { AOCYear } from '../../models/aoc-year';
 export class DaySelectorComponent {
   inputFetcher = inject(InputFetcherService);
   storeService = inject(StorageService);
-
-  year = input.required<AOCYear>();
-  selectorOutput = output<dayId>();
+  state = inject(CurrentProblemService);
 
   adventDays = signal<DaySelectOption[]>([]);
   //selectorElement = viewChild.required<ElementRef>('dayselect');
-  selectedDay = signal<string>(this.storeService.getSelectedDay());
-  customInput = signal<boolean>(this.storeService.isCustomActive());
-  textAreaContent = signal<string>(this.storeService.getCustomInput());
+  textAreaContent = signal<string>('');
+  customInput = signal(false);
 
   customContent = output<string>();
 
   selectedDayData = computed(() => {
     const day = this.adventDays().find(
-      (day) => day.selectValue === this.selectedDay(),
+      (day) => day.selectValue === this.state.day(),
     );
     return day;
   });
   selectedDayStatementUrl = computed(
     () =>
-      `https://adventofcode.com/${this.year()}/day/${this.selectedDayData()?.number}`,
+      `https://adventofcode.com/${this.state.year()}/day/${this.selectedDayData()?.number ?? ''}`,
   );
 
   constructor() {
+    this.storeService
+      .loadCustom()
+      .pipe(takeUntilDestroyed())
+      .subscribe({
+        next: (custom) => {
+          this.textAreaContent.set(custom);
+          this.customInput.set(custom != '');
+        },
+        error: (err) => this.textAreaContent.set(''),
+      });
     let days = [];
     for (let i = 1; i <= 25; i++) {
       days.push({ number: i, selectValue: 'day' + i, label: i.toString() });
     }
     this.adventDays.set(days);
-    effect(() => {
-      const day = this.selectedDay();
-      this.storeService.storeSelectedDay(day);
-    });
-    effect(() => {
-      const custom = this.textAreaContent();
-      this.storeService.storeCustomInput(custom);
-    });
   }
 
   ngOnInit() {}
 
   ngAfterViewInit() {
     if (this.customInput()) {
-      this.customContent.emit(this.textAreaContent());
+      this.customContent.emit(this.textAreaContent() ?? '');
     }
   }
 
   handleDaySelect(event: CustomSelectEvent) {
     const selectedOption = event.selected.value() as dayId;
     const inputFilename = selectedOption + '.txt';
-    if (selectedOption !== this.selectedDay()) {
+    if (selectedOption !== this.state.day()) {
       this.textAreaContent.set('');
+      this.customInput.set(false);
       this.customContent.emit('');
     }
-    this.selectedDay.set(selectedOption);
-    this.selectorOutput.emit(selectedOption);
+    this.state.changeDay$.next(selectedOption);
   }
   customHandler() {
-    const selectedOption = this.selectedDay() as dayId;
-    this.customInput.update((val) => !val);
+    const selectedOption = this.state.day() as dayId;
+    this.customInput.update((value) => !value);
     if (!this.customInput()) {
       this.textAreaContent.set('');
     }
@@ -104,10 +105,10 @@ export class DaySelectorComponent {
   }
 
   submitCustom(event: Event) {
-    const selectedOption = this.selectedDay() as dayId;
+    const selectedOption = this.state.day() as dayId;
     const textArea = event.target as HTMLTextAreaElement;
     const customInput = textArea.value;
-    this.storeService.storeCustomInput(customInput);
+    this.storeService.saveCustom(customInput);
     this.customContent.emit(customInput);
   }
 }

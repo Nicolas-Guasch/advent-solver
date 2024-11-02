@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { ProblemInput } from '../../shared/models/ProblemInput';
 import { Solution } from '../models/solution';
 import { dayId } from '../../shared/models/dayId';
@@ -7,18 +7,18 @@ import { Observable, of } from 'rxjs';
 
 import * as d23 from '../../../../solutions/2023/aoc2023';
 import { AOCYear } from '../models/aoc-year';
-import { StorageService } from './storage.service';
+import { CurrentProblemService } from './current-problem.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AOCSolutionsProviderService {
-  storage = inject(StorageService);
-  contestYear: AOCYear = this.storage.getYear();
+  state = inject(CurrentProblemService);
+  contestYear = computed(() => this.state.year());
   constructor() {}
 
   getDaySolution(dayName: dayId): Solution {
-    switch (this.contestYear) {
+    switch (this.contestYear()) {
       case '2023':
         return this.fetch2023(dayName);
       case '2024':
@@ -100,10 +100,6 @@ export class AOCSolutionsProviderService {
       default:
         return new PendingSolver();
     }
-  }
-
-  changeYear(year: AOCYear) {
-    this.contestYear = year;
   }
 
   partOne(input: ProblemInput): Observable<string> {

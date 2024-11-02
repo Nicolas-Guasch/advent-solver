@@ -1,9 +1,9 @@
 import { Component, effect, inject, output, signal } from '@angular/core';
 import { AOCYear } from '../../models/aoc-year';
-import { StorageService } from '../../services/storage.service';
 import { AOCSolutionsProviderService } from '../../services/aoc-solutions-provider.service';
 import { CodeFetcherService } from '../../../shared/services/code-fetcher.service';
 import { InputFetcherService } from '../../../shared/services/input-fetcher.service';
+import { CurrentProblemService } from '../../services/current-problem.service';
 
 @Component({
   selector: 'app-year-nav',
@@ -13,26 +13,13 @@ import { InputFetcherService } from '../../../shared/services/input-fetcher.serv
   styleUrl: './year-nav.component.css',
 })
 export class YearNavComponent {
-  storageService = inject(StorageService);
-  solutionsProvider = inject(AOCSolutionsProviderService);
-  codeFetcher = inject(CodeFetcherService);
-  inputFetcher = inject(InputFetcherService);
-  contestYear = signal<AOCYear>(this.storageService.getYear());
+  state = inject(CurrentProblemService);
   yearChange = output<AOCYear>();
   availableYears: AOCYear[] = ['2023', '2024'];
 
-  constructor() {
-    effect(() => {
-      const year = this.contestYear();
-      this.storageService.storeYear(year);
-    });
-  }
+  constructor() {}
 
   changeYear(year: AOCYear) {
-    this.contestYear.set(year);
-    this.solutionsProvider.changeYear(year);
-    this.inputFetcher.changeYear(year);
-    this.codeFetcher.changeYear(year);
-    this.yearChange.emit(year);
+    this.state.changeYear$.next(year);
   }
 }

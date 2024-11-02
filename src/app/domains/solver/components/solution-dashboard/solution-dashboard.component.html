@@ -4,7 +4,7 @@
 </div>
 <div class="IO-panel">
   <div class="input-side">
-    <pre><code ><span>Your input:</span><span >{{'\n'+providedInput().input}}</span></code></pre>
+    <pre><code ><span>Your input:</span><span >{{'\n'+(customInput()?.input ?? input())}}</span></code></pre>
   </div>
   <div class="divider" role="separator" aria-label="Divider"></div>
   <div>

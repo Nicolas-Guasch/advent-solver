@@ -1,21 +1,21 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 
 import * as d23 from '../../../../solutions/2023/aoc2023';
 import { Solution } from '../../solver/models/solution';
 import { dayId } from '../models/dayId';
 import { AOCYear } from '../../solver/models/aoc-year';
-import { StorageService } from '../../solver/services/storage.service';
+import { CurrentProblemService } from '../../solver/services/current-problem.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CodeFetcherService {
-  storage = inject(StorageService);
+  state = inject(CurrentProblemService);
   constructor() {}
-  private contestYear = this.storage.getYear();
+  private contestYear = computed(this.state.year);
 
   classHandler(id: dayId) {
-    switch (this.contestYear) {
+    switch (this.contestYear()) {
       case '2023':
         return this.fetch2023(id);
       case '2024':
@@ -102,10 +102,6 @@ export class CodeFetcherService {
       default:
         return '';
     }
-  }
-
-  changeYear(year: AOCYear) {
-    this.contestYear = year;
   }
 
   fetchCode(id: dayId): string {

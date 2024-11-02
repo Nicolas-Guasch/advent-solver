@@ -1,75 +1,39 @@
 import { Injectable } from '@angular/core';
 import { AOCYear } from '../models/aoc-year';
+import { dayId } from '../../shared/models/dayId';
+import { of } from 'rxjs';
 
-interface selectStore {
-  dayLabel: string;
-  customInput: string;
+interface storedDay {
+  dayLabel: dayId;
+  year: AOCYear;
 }
 
-const YEARLABEL = 'contestYear';
-const SELECTLABEL = 'select';
+const CURRENTLABEL = 'current';
+const CUSTOMLABEL = 'custom';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
-  private storedData: selectStore;
-  private storedYear: AOCYear;
+  constructor() {}
 
-  constructor() {
-    this.storedYear = this.retrieveYear();
-    this.storedData = this.retrieveSelectData();
+  loadCurrent() {
+    const DEFAULT: storedDay = { dayLabel: 'day1', year: '2023' };
+    const storage = localStorage.getItem(CURRENTLABEL);
+    return of(storage ? (JSON.parse(storage) as storedDay) : DEFAULT);
   }
 
-  private retrieveYear(): AOCYear {
-    const DEFAULTYEAR = '2023';
-    const storage = localStorage.getItem(YEARLABEL);
-    if (storage) {
-      return JSON.parse(storage);
-    } else {
-      return DEFAULTYEAR;
-    }
+  loadCustom() {
+    const DEFAULT = '';
+    const storage = localStorage.getItem(CUSTOMLABEL);
+    return of(storage ? (JSON.parse(storage) as string) : DEFAULT);
   }
 
-  private retrieveSelectData(): selectStore {
-    const storage = localStorage.getItem(SELECTLABEL);
-    if (storage) {
-      return JSON.parse(storage);
-    } else
-      return {
-        dayLabel: 'day1',
-        customInput: '',
-      };
+  saveCurrent(current: storedDay) {
+    localStorage.setItem(CURRENTLABEL, JSON.stringify(current));
   }
 
-  public getYear(): AOCYear {
-    return this.storedYear;
-  }
-
-  public getSelectedDay(): string {
-    return this.storedData.dayLabel;
-  }
-
-  public isCustomActive(): boolean {
-    return this.storedData.customInput != '';
-  }
-
-  public getCustomInput(): string {
-    return this.storedData.customInput;
-  }
-
-  public storeSelectedDay(day: string) {
-    this.storedData.dayLabel = day;
-    localStorage.setItem(SELECTLABEL, JSON.stringify(this.storedData));
-  }
-
-  public storeCustomInput(input: string) {
-    this.storedData.customInput = input;
-    localStorage.setItem(SELECTLABEL, JSON.stringify(this.storedData));
-  }
-
-  public storeYear(year: AOCYear) {
-    this.storedYear = year;
-    localStorage.setItem(YEARLABEL, JSON.stringify(this.storedYear));
+  saveCustom(custom: string) {
+    localStorage.setItem(CUSTOMLABEL, JSON.stringify(custom));
   }
 }

@@ -1,22 +1,16 @@
 <main class="container">
   <header>
-    <h1>Solutions to Advent of Code {{ year() }}</h1>
+    <h1>Solutions to Advent of Code {{ state.year() }}</h1>
     <div>
       <span>Choose year:</span>
-      <app-year-nav (yearChange)="yearHandler($event)"></app-year-nav>
+      <app-year-nav></app-year-nav>
     </div>
   </header>
   <app-day-selector
-    (selectorOutput)="daySelectedHandler($event)"
     (customContent)="customInputHandler($event)"
-    [year]="year()"
   ></app-day-selector>
 
-  @if (problemInput()) {
-    <app-solution-dashboard
-      [providedInput]="
-        customInput().input == '' ? problemInput()! : customInput()
-      "
-    ></app-solution-dashboard>
-  }
+  <app-solution-dashboard
+    [customInput]="customInput().input == '' ? null : customInput()"
+  ></app-solution-dashboard>
 </main>

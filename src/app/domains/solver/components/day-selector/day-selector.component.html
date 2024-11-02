@@ -8,7 +8,7 @@
     @for (day of adventDays(); track day.number) {
       <app-custom-select-option
         [value]="day.selectValue"
-        [selected]="selectedDay() === day.selectValue"
+        [selected]="state.day() === day.selectValue"
       >
         {{ day.label }}
       </app-custom-select-option>

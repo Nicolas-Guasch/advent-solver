@@ -1,6 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 
 import * as d23 from '../../../../solutions/2023/aoc2023';
+import * as d24 from '../../../../solutions/2024/aoc2024';
 import { Solution } from '../../solver/models/solution';
 import { dayId } from '../models/dayId';
 import { AOCYear } from '../../solver/models/aoc-year';
@@ -26,6 +27,7 @@ export class CodeFetcherService {
   fetch2024(id: dayId) {
     switch (id) {
       case 'day1':
+        return d24.Y2024Day1.toString();
       case 'day2':
       case 'day3':
       case 'day4':
@@ -89,6 +91,7 @@ export class CodeFetcherService {
       case 'day13':
         return d23.Day13.toString();
       case 'day14':
+        return d23.Day14.toString();
       case 'day15':
       case 'day16':
       case 'day17':

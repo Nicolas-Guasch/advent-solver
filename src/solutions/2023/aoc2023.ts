@@ -11,6 +11,7 @@ import { Day10, explorer } from './day10';
 import { Day11 } from './day11';
 import { Day12 } from './day12';
 import { Day13 } from './day13';
+import { Day14 } from './day14';
 
 export {
   Day1,
@@ -27,4 +28,5 @@ export {
   Day11,
   Day12,
   Day13,
+  Day14,
 };

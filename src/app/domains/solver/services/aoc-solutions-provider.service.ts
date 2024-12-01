@@ -6,6 +6,7 @@ import { PendingSolver } from '../models/pending-solver';
 import { Observable, of } from 'rxjs';
 
 import * as d23 from '../../../../solutions/2023/aoc2023';
+import * as d24 from '../../../../solutions/2024/aoc2024';
 import { CurrentProblemService } from './current-problem.service';
 
 @Injectable({
@@ -28,6 +29,7 @@ export class AOCSolutionsProviderService {
   fetch2024(dayName: dayId): Solution {
     switch (dayName) {
       case 'day1':
+        return new d24.Y2024Day1();
       case 'day2':
       case 'day3':
       case 'day4':
@@ -86,6 +88,7 @@ export class AOCSolutionsProviderService {
       case 'day13':
         return new d23.Day13();
       case 'day14':
+        return new d23.Day14();
       case 'day15':
       case 'day16':
       case 'day17':

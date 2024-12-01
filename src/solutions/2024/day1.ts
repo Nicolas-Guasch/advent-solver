@@ -4,10 +4,8 @@ export class Y2024Day1 extends Solution {
   parseInput(input: string) {
     let left = [],
       right = [];
-    for (let line of input.split('\n').filter((line) => line != '')) {
-      let [leftItem, rightItem] = line
-        .split('   ')
-        .map((number) => parseInt(number));
+    for (let line of input.trim().split('\n')) {
+      let [leftItem, rightItem] = line.split(/\s+/).map(Number);
       left.push(leftItem);
       right.push(rightItem);
     }
@@ -20,9 +18,8 @@ export class Y2024Day1 extends Solution {
 
     leftList.sort((a, b) => a - b);
     rightList.sort((a, b) => a - b);
-    for (let i = 0; i < leftList.length; i++) {
+    for (let i = 0; i < leftList.length; i++)
       totalDistance += Math.abs(leftList[i] - rightList[i]);
-    }
 
     return totalDistance.toString();
   }
@@ -30,14 +27,12 @@ export class Y2024Day1 extends Solution {
   override partTwo(input: string): string {
     let [leftList, rightList] = this.parseInput(input);
     let totalDistance = 0;
-    let rightOcurrences = new Counter<number>();
 
-    for (let number of rightList) {
-      rightOcurrences.increment(number);
-    }
-    for (let number of leftList) {
+    let rightOcurrences = new Counter<number>();
+    for (let number of rightList) rightOcurrences.increment(number);
+
+    for (let number of leftList)
       totalDistance += number * rightOcurrences.get(number);
-    }
 
     return totalDistance.toString();
   }
@@ -46,11 +41,9 @@ export class Y2024Day1 extends Solution {
 class Counter<T> {
   private count = new Map<T, number>();
   public get(key: T): number {
-    if (!this.count.has(key)) this.count.set(key, 0);
-    return this.count.get(key)!;
+    return this.count.get(key) || 0;
   }
   public increment(key: T): void {
-    if (!this.count.has(key)) this.count.set(key, 0);
-    this.count.set(key, this.count.get(key)! + 1);
+    this.count.set(key, this.get(key) + 1);
   }
 }

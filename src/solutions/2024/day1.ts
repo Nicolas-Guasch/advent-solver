@@ -26,15 +26,15 @@ export class Y2024Day1 extends Solution {
 
   override partTwo(input: string): string {
     let [leftList, rightList] = this.parseInput(input);
-    let totalDistance = 0;
+    let similarityScore = 0;
 
     let rightOcurrences = new Counter<number>();
     for (let number of rightList) rightOcurrences.increment(number);
 
     for (let number of leftList)
-      totalDistance += number * rightOcurrences.get(number);
+      similarityScore += number * rightOcurrences.get(number);
 
-    return totalDistance.toString();
+    return similarityScore.toString();
   }
 }
 

@@ -23,7 +23,7 @@ export class Y2024Day2 extends Solution {
     return safeReports.length.toString();
   }
 
-  problemDampener(levels: number[]): boolean {
+  private problemDampener(levels: number[]): boolean {
     return levels.some((_, i) => this.checkSafety(levels.toSpliced(i, 1)));
   }
 

@@ -35,6 +35,7 @@ export class CodeFetcherService {
       case 'day4':
         return d24.Y2024Day4.toString();
       case 'day5':
+        return d24.Y2024Day5.toString();
       case 'day6':
       case 'day7':
       case 'day8':

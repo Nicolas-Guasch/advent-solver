@@ -33,16 +33,16 @@ export class Y2024Day5 extends Solution {
 
   fixOrder(pages: number[]): number[] {
     const fixedPages = [...pages];
-    for (let i = 0; i < fixedPages.length; i++) {
-      for (let j = 0; j < fixedPages.length - 1 - i; j++) {
-        if (!this.goesBefore[fixedPages[j]].includes(fixedPages[j + 1])) {
-          const temp = fixedPages[j];
-          fixedPages[j] = fixedPages[j + 1];
-          fixedPages[j + 1] = temp;
-        }
-      }
-    }
+    fixedPages.sort((a, b) => (this.goesBefore[a].includes(b) ? -1 : +1));
     return fixedPages;
+  }
+
+  findMiddle(pages: number[]): number {
+    return pages.filter(
+      (page) =>
+        this.goesBefore[page].filter((p) => pages.includes(p)).length ===
+        Math.trunc(pages.length / 2),
+    )[0];
   }
 
   override partTwo(input: string): string {
@@ -56,8 +56,7 @@ export class Y2024Day5 extends Solution {
 
     for (let update of updateInput.split('\n')) {
       const pages = update.split(',').map(Number);
-      if (!this.rightOrder(pages))
-        middlesSum += this.fixOrder(pages)[Math.trunc(pages.length / 2)];
+      if (!this.rightOrder(pages)) middlesSum += this.findMiddle(pages);
     }
     return middlesSum.toString();
   }
